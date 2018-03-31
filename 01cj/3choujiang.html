@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head> 
+<title>choujiang</title>
+
+  <meta charset="UTF-8">
+  <style>
+	*{padding:0px;margin:0px;} 
+	body{
+		overflow: hidden; 
+	}
+	.wrap {
+		perspective:800px;
+		-webkit-perspective:800px;
+		-o-perspective:800px;
+		-moz-perspective:800px;
+		-ms-perspective:800px;		/*设置景深为800px*/
+	}
+	#photos{
+		width:250px;		   /*宽度*/
+		height:300px;		   /*高度*/
+		border:1px solid #ccc; /*加一个灰色边框*/
+		margin:-900px auto;	   /*水平居中，高度距离顶部280px*/
+		transform-style:preserve-3d;/*设置3d环境*/
+		-webkit-transform-style:preserve-3d;
+		-o-transform-style:preserve-3d;
+		-moz-transform-style:preserve-3d;
+       -ms-transform-style:preserve-3d;
+		transition: all 5s;
+	}
+	#photos img{
+		width:100%;
+		height:100%;
+		position:absolute;
+		box-shadow:0 0 8px #eaeaea;
+		box-shadow: 1px -1px 6px #666;
+		border-radius:4px;
+		-webkit-box-reflect:below 3px -webkit-linear-gradient(top,rgba(0,0,0,0) 40%,rgba(0,0,0,0.5));
+		transition: all 1s;
+	}
+
+	#photos div{
+		width:1000px;
+		height:1000px;
+		border-radius:50%;
+		position:absolute;
+		top:140%;
+		left:90%;
+		margin-left:-600px;
+		margin-top:-600px;
+		transform:rotateX(90deg);
+		background:-webkit-radial-gradient(center center,600px 600px,rgba(158,158,222,0.5),rgba(0,0,0,0));
+		background: url(images/1.jpg);
+		background-repeat: no-repeat;
+		background-size: cover;
+	}
+	p{
+		height: 1200px;
+		font-size: 70px;
+		background: url(img/5.jpg);
+        background-size: cover;
+		margin :10px auto
+		font-weight: bold;
+		font-family: '华文新魏';
+		color: #f00;
+		text-align:center;
+	}
+	h2{
+		color: #000;
+	    margin-top: 470px;
+	    z-index: 100;
+	}
+	h3{
+        position: absolute;
+		color: yellow;
+		bottom:  150px;
+		font-size: 50px;
+		left: 220px;
+		z-index: 100;
+	}
+  </style>
+ </head>
+ <body>
+ <p><br><br>庆祝中国矿业大学建校108周年<br>暨官微发布3周年</p>
+ <h2>技术支持：BTX微信开发小组<br>本活动罪解释权归党委组织部所有</h2>
+  <h3>点击任意图片开始抽奖</h3>
+	<div class="wrap">
+		<div id="photos" style="transform: rotateX(-20deg) rotateY(0deg);"> 
+		   <img src="imgs/0.jpg" alt="图片0,没中奖" style="transform: rotateY(320deg)translateZ(380px);">
+		   <img src="imgs/1.jpg" alt="图片1" style="transform: rotateY(0deg) translateZ(380px);">
+		   <img src="1mgs/2.jpg" alt="图片2" style="transform: rotateY(40deg)translateZ(380px);">
+		   <img src="imgs/3.jpg" alt="图片3" style="transform: rotateY(80deg)translateZ(380px);">
+		   <img src="imgs/4.jpg" alt="图片4" style="transform: rotateY(120deg)translateZ(380px);">
+		   <img src="imgs/5.jpg" alt="图片5" style="transform: rotateY(160deg) translateZ(380px);">
+		   <img src="imgs/6.jpg" alt="图片6" style="transform: rotateY(200deg)translateZ(380px);">
+		   <img src="imgs/7.jpg" alt="图片7" style="transform: rotateY(240deg) translateZ(380px);">
+		   <img src="imgs/8.jpg" alt="图片8" style="transform: rotateY(280deg)translateZ(380px);">
+			<div id="btm"></div>
+		</div>
+
+	</div>
+ <script> //此处嵌入php地址
+	var photosDom = document.getElementById('photos');
+	//获取图片数组
+	var images = photosDom.getElementsByTagName('img');
+	//获取图片数量
+	var len = images.length;	
+	var offon=true;	
+	//计算每张图片按Y轴旋转的角度 
+	var deg = Math.floor(360 / len); 
+	var rank=7;
+    //var rank ="<?php echo $level ?>";
+	for(var i = 0; i < len;i++){
+		images[i].style = 'transform : rotateY(' + deg * (i-1) + 'deg) translateZ(380px)'; 
+		images[i].onclick=function () {
+			if(offon){offon=!offon; rotating();}
+			else{alert("您已经抽过了")}	
+		}
+	}
+	function rotating(){    
+		//var x=80;//x由后台调入,与rank相关x=360-rank*deg
+		var x=360-(rank-1)*deg;
+		photosDom.style.transform = "rotateX(-20deg)rotateY("+(1800+x)+"deg)";
+	  setTimeout(function(){
+	    	//rank是获奖等级，从后台调入,与x相关
+	    	images[rank].style.transform="rotateY("+(rank-1)*deg+"deg)rotateX(20deg) translateZ(500px)"
+	    },5500);
+	 setTimeout(//需要后台数据
+	 	function(){
+	 	if (rank==0){alert("对不起您没有中奖")}
+	 else{
+	         var arr = new Array("约拍","抱枕","笔记本","帆布包","书签","手机指环架","明信片","定制笔袋");
+	         var result2=confirm("恭喜获得"+arr[rank-1]+","+"点击确认填写个人信息");}
+	 if(result2){window.location.href="denglu.html";
+	   } 
+	 },7500) 
+	 
+	}
+ </script>
+</body>
+</html>
